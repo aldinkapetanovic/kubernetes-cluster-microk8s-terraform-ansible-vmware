@@ -1,0 +1,21 @@
+---
+- hosts: all
+  become: true
+  gather_facts: false
+  tasks:
+    - name: Install ZSH, Git...
+      apt:
+        name: "{{ packages }}"
+        state: present
+        update_cache: true
+      vars:
+        packages:
+          - zsh
+          - tree
+          - acl
+          - nfs-common
+          - python3-pygments
+          - sssd-ad
+          - sssd-tools
+          - realmd
+          - adcli

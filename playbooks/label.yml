@@ -1,0 +1,21 @@
+# - hosts: master[0]
+#   tasks:
+#     - name: Label Control Plane Nodes
+#       command: microk8s kubectl label nodes master kubernetes.io/role=control-plane
+#     - name: Label Worker Nodes
+#       command: microk8s kubectl label nodes worker kubernetes.io/role=worker
+
+- hosts: master[0]
+  gather_facts: true
+  tasks:
+    - name: Get Master Node List
+      set_fact:
+        master_node_list: "{{ groups['master'] }}"
+    - name: Label Control Plane Nodes
+      command: "microk8s kubectl label nodes {{ master_node_list | join(' ') }} kubernetes.io/role=control-plane"
+
+    - name: Get Worker Node List
+      set_fact:
+        worker_node_list: "{{ groups['worker'] }}"
+    - name: Label Worker Nodes
+      command: "microk8s kubectl label nodes {{ worker_node_list | join(' ') }} kubernetes.io/role=worker"

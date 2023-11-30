@@ -1,0 +1,8 @@
+---
+- hosts: all
+  gather_facts: false
+  become: true
+  tasks:
+    - name: Set timezone to Europe/Sarajevo
+      community.general.timezone:
+        name: Europe/Sarajevo

@@ -1,0 +1,8 @@
+- hosts: master[0]
+  gather_facts: true
+  tasks:
+    - name: Get Master Node List
+      set_fact:
+        master_node_list: "{{ groups['master'] }}"
+    - name: Taint Control Plane Nodes
+      command: "microk8s kubectl taint nodes {{ master_node_list | join(' ') }} node-role.kubernetes.io/control-plane=:NoSchedule --overwrite"

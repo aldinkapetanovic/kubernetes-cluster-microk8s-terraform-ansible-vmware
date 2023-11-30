@@ -1,0 +1,14 @@
+---
+- import_playbook: ad.yml
+- import_playbook: lvm.yml
+- import_playbook: timezone.yml
+- import_playbook: packages.yml
+- import_playbook: my-ca-cert.yml
+- import_playbook: snap-microk8s.yml
+- import_playbook: authorized_key.yml
+- import_playbook: microk8s-group.yml
+- import_playbook: oh-my-zsh.yml
+- import_playbook: addons.yml
+- import_playbook: join.yml
+- import_playbook: taint.yml
+- import_playbook: label.yml

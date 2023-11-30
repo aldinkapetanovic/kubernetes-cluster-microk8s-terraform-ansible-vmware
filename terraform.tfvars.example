@@ -1,0 +1,48 @@
+user = ""
+
+password = ""
+
+vsphere_server = "myvcaa.mydomain.io"
+
+datacenter = "MYDC"
+
+datastore = "MYK8S_Datastore1"
+
+resource_pool = "myk8s"
+
+template = "ubuntu-22.04-template"
+
+network = "MYVLAN_K8S_17"
+
+disk_label = "disk0"
+
+dns_list = ["192.168.17.161", "192.168.17.162"]
+
+dns_search = ["mydomain.io"]
+
+domain = "mydomain.io"
+
+ipv4_gateway = "192.168.17.65"
+
+ipv4_netmask = 24
+
+deploy_vsphere_folder = "/devops/k8s/dev/aldinka/microk8s/a"
+name                  = ["a-master-01", "a-master-02", "a-master-03", "a-master-04", "a-worker-01", "a-worker-02", "a-worker-03"]
+ipv4_address          = ["192.168.17.101", "192.168.17.102", "192.168.17.103", "192.168.17.104", "192.168.17.105", "192.168.17.106", "192.168.17.107"]
+cpus                  = [4, 4, 4, 4, 8, 8, 8]
+memory                = [8192, 8192, 8192, 8192, 16384, 16384, 16384]
+disk_size             = [40, 40, 40, 40, 120, 120, 120]
+
+# deploy_vsphere_folder = "/devops/k8s/dev/aldinka/microk8s/b"
+# name                  = ["b-master-01", "b-master-02", "b-master-03", "b-master-04", "b-worker-01", "b-worker-02", "b-worker-03"]
+# ipv4_address          = ["192.168.17.111", "192.168.17.112", "192.168.17.113", "192.168.17.114", "192.168.17.115", "192.168.17.116", "192.168.17.117"]
+# cpus                  = [4, 4, 4, 4, 8, 8, 8]
+# memory                = [8192, 8192, 8192, 8192, 16384, 16384, 16384]
+# disk_size             = [40, 40, 40, 40, 120, 120, 120]
+
+# deploy_vsphere_folder = "/devops/k8s/dev/aldinka/rke2/r"
+# name                  = ["r-master-01"]
+# ipv4_address          = ["192.168.17.121"]
+# cpus                  = [8]
+# memory                = [16384]
+# disk_size             = [120]

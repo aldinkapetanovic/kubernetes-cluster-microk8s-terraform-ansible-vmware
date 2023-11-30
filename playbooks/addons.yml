@@ -1,0 +1,12 @@
+---
+- hosts: master[0]
+  gather_facts: false
+  tasks:
+    - name: CoreDNS
+      command: microk8s enable dns
+    - name: Cloud native certificate management
+      command: microk8s enable cert-manager
+    - name: The Kubernetes dashboard
+      command: microk8s enable dashboard
+    - name: Ingress controller for external access
+      command: microk8s enable ingress

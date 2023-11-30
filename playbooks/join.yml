@@ -1,0 +1,43 @@
+---
+- name: "Prepare the join command from the master"
+  hosts: master[0]
+  gather_facts: false
+  tasks:
+    - name: "Create join key and read output"
+      command: microk8s add-node -l 300 -t 11f5fafb4fabe1e0309e7914d4603a11 --format short
+      register: add_output
+
+    - name: "Define the 'join_command' variable"
+      set_fact:
+        join_command: "{{ add_output.stdout_lines[0] }}"
+
+    - name: "Debug: Printing the join command"
+      debug:
+        var: join_command
+
+    - name: "Add microk8s join command to a dummy host"
+      add_host:
+        name: "MICROK8S_JOIN_HOLDER"
+        command: "{{ join_command }}"
+
+- name: "Execute the join command in a master node"
+  hosts: master[1:]
+  gather_facts: false
+  tasks:
+    - name: "Debug: Printing the join command"
+      debug:
+        var: hostvars['MICROK8S_JOIN_HOLDER']['command']
+
+    - name: "Join the cluster from the generated join command"
+      command: "{{ hostvars['MICROK8S_JOIN_HOLDER']['command'] }}"
+
+- name: "Execute the join command in a worker node"
+  hosts: worker
+  gather_facts: false
+  tasks:
+    - name: "Debug: Printing the join command"
+      debug:
+        var: hostvars['MICROK8S_JOIN_HOLDER']['command']
+
+    - name: "Join the cluster from the generated join command"
+      command: "{{ hostvars['MICROK8S_JOIN_HOLDER']['command'] + ' --worker' }}"

@@ -1,0 +1,11 @@
+---
+- hosts: all
+  gather_facts: true
+  become: true
+  tasks:
+    - name: parted
+      command: parted /dev/sda resizepart 3 100%
+    - name: pvresize
+      command: pvresize /dev/sda3
+    - name: lvextend
+      command: lvextend -l 100%FREE -r /dev/ubuntu-vg/ubuntu-lv

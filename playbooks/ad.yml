@@ -1,0 +1,34 @@
+---
+- hosts: all
+  vars_prompt:
+    - name: username
+      prompt: What is your username?
+      private: false
+    - name: password
+      prompt: What is your password?  
+  # vars:
+  #   username: srvuser
+  #   password: srvuserpass
+  gather_facts: true
+  become: true
+  tasks:
+    - name: Join system to AD
+      expect:
+        command: realm join -U {{ username }}@mydomain.io --computer-ou='OU=Linux,OU=Serveri' --os-name='Linux' --os-version='Ubuntu 22.04' mydomain.io
+        responses:
+          Password for *: "{{ password }}"
+    - name: Enable mkhomedir
+      command: pam-auth-update --enable mkhomedir
+    - name: Insert ad_ block in /etc/sssd/sssd.conf
+      ansible.builtin.blockinfile:
+        path: /etc/sssd/sssd.conf
+        marker: "; {mark} ANSIBLE MANAGED BLOCK"
+        state: present
+        block: |
+          ad_gpo_access_control = enforcing
+          ad_gpo_ignore_unreadable = False
+          ad_access_filter = (memberOf=CN=mydevops,OU=GDgrupe,DC=mydomain,DC=io)
+    - name: Restart service sssd, in all cases
+      ansible.builtin.service:
+        name: sssd
+        state: restarted

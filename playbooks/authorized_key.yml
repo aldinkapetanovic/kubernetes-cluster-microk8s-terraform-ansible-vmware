@@ -1,0 +1,23 @@
+- hosts: all
+  become: true
+  tasks:
+  - name: Add user / append to group (admin)
+    ansible.builtin.user:
+      name: "{{ item }}"
+      state: present
+      shell: /bin/bash
+      groups: sudo
+      append: true
+    loop:
+      - aldinka
+      - someuser
+  - name: Set authorized keys taken from url
+    ansible.posix.authorized_key:
+          user: "{{ item }}"
+          # state: absent
+          # state: present
+          exclusive: true
+          key: "{{ lookup('url', 'https://gitlabrepo.mydomain.io/'+ item + '.keys', split_lines=False) }}"
+    loop:
+      - aldinka
+      - someuser

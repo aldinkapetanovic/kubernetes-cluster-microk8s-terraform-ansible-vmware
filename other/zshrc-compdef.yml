@@ -1,0 +1,13 @@
+---
+- name: "Compdef .zshrc"
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Insert compdef block in /home/aldinka/.zshrc
+      ansible.builtin.blockinfile:
+        path: /home/aldinka/.zshrc
+        block: |
+          compdef microk8s.kubectl=kubectl
+          compdef mk=kubectl
+          alias k=mk
+          compdef k=kubectl

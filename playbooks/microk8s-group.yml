@@ -1,0 +1,17 @@
+---
+- name: "Add user to microk8s group"
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Add the user, appending the groups 'microk8s' to the user's groups
+      become: true
+      ansible.builtin.user:
+        name: "{{ item }}"
+        state: present
+        groups: microk8s
+        append: true
+      loop:
+        - aldinka
+        - someuser
+    - name: Reset ssh connection to allow user changes to affect user
+      ansible.builtin.meta: reset_connection

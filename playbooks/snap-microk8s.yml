@@ -1,0 +1,11 @@
+---
+- name: Play for installing microk8s
+  hosts: all
+  become: true
+  gather_facts: false
+  tasks:
+    - name: Install microk8s for Canonical Kubernetes
+      community.general.snap:
+        name: microk8s
+        classic: true
+        channel: 1.26/stable

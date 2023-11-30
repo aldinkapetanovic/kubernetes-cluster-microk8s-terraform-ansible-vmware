@@ -1,0 +1,13 @@
+---
+- hosts: all
+  become: true
+  gather_facts: false
+  tasks:
+    - name: Ensure local certs directory exists
+      file: state=directory path=/usr/local/share/ca-certificates
+
+    - name: Install MYDOMAINIOrootCA02 cert
+      copy: src=MYDOMAINIOrootCA02.cer dest=/usr/local/share/ca-certificates/MYDOMAINIOrootCA02.crt
+
+    - name: Update cert index
+      shell: /usr/sbin/update-ca-certificates

@@ -1,0 +1,28 @@
+---
+# ansible-galaxy install gantsign.oh-my-zsh
+- name: Play for installing oh-my-zsh
+  hosts: all
+  gather_facts: true
+  vars:
+    allow_world_readable_tmpfiles: true
+    oh_my_zsh_defaults: 
+      theme: risto
+      plugins:
+        - microk8s
+        - git
+        - kubectl
+        - helm
+        - command-not-found
+        - colorize
+        - colored-man-pages
+        - history
+        # - zsh-syntax-highlighting
+        # - zsh-autosuggestions
+        # - docker
+  roles:
+    - role: gantsign.oh-my-zsh
+      users:
+        - username: "aldinka"
+          oh_my_zsh: "{{oh_my_zsh_defaults}}"
+        - username: "someuser"
+          oh_my_zsh: "{{oh_my_zsh_defaults}}"
